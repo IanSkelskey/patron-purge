@@ -1,6 +1,6 @@
-# Parallel Purge Process
+# Patron Purge
 
-This repository contains a script to perform parallel purging of database records.
+This repository contains a collection of scripts for purging patron records from an Evergreen ILS database. The scripts are designed to be run on a Evergreen database server. The scripts are written in SQL and shell script.
 
 ## Purge Criteria
 
