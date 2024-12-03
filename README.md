@@ -2,6 +2,14 @@
 
 This repository contains a script to perform parallel purging of database records.
 
+## Purge Criteria
+
+A patron record is eligible for purging if it meets the following criteria:
+
+- No activity in the last 5 years
+- No lost items
+- No bills
+
 ## Script: Create Buckets
 
 ### Description
