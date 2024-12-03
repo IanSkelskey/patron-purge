@@ -15,7 +15,7 @@ fi
 # Configuration
 DB_NAME="$1"
 SQL_FILE="../sql/process_library_chunk.sql"
-PARALLEL_PROCESSES=5
+PARALLEL_PROCESSES=6
 CHUNK_SIZE=6
 LIBRARY_ID_FILE="library_ids.txt"
 COMPLETED_LOG="completed_libraries.log"

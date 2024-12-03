@@ -46,8 +46,8 @@ A patron record is eligible for purging if it meets the following criteria:
 
 ### Requirements
 
-- Bash shell
-- PostgreSQL client
+![Bash](https://img.shields.io/badge/Bash-brightgreen.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ### License
 
