@@ -2,11 +2,11 @@
 
 This repository contains a script to perform parallel purging of database records.
 
-## Script: `parallel_purge_process.sh`
+## Script: Create Buckets
 
 ### Description
 
-`parallel_purge_process.sh` is a shell script designed to purge database records in parallel, improving the efficiency and speed of the purge process.
+`scripts\create_buckets.sh` is a shell script designed to create buckets for purge-eligible patron records. A bucket is made for each library in the consortium. This is to accomodate library staff reviewing the records before they are purged. Staff may remove records from the bucket if they are not ready to be purged. The actual purging of records is done from the buckets.
 
 ### Features
 
@@ -16,24 +16,24 @@ This repository contains a script to perform parallel purging of database record
 
 1. **Clone the repository:**
     ```sh
-    git clone <repository_url>
-    cd parallel_purge_process
+    git clone git@github.com:IanSkelskey/patron-purge.git
+    cd scripts
     ```
 
 2. **Make the script executable:**
     ```sh
-    chmod +x parallel_purge_process.sh
+    chmod +x create_buckets.sh
     ```
 
 3. **Run the script:**
     ```sh
-    ./parallel_purge_process.sh <db_name>
+    ./create_buckets.sh <db_name>
     ```
 
 ### Example
 
 ```sh
-./parallel_purge_process.sh "eg_spork1"
+./create_buckets.sh "eg_spork1"
 ```
 
 ### Requirements
