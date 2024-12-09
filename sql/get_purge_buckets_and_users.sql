@@ -18,3 +18,13 @@ FROM container.user_bucket b
 JOIN container.user_bucket_item ubit ON b.id = ubit.bucket
 WHERE b.id = 692
 ORDER BY ubit.target_user;
+
+-- Count all users in all purge buckets
+SELECT 
+    COUNT(DISTINCT ubit.target_user) AS total_users
+FROM 
+    container.user_bucket b
+JOIN 
+    container.user_bucket_item ubit ON b.id = ubit.bucket
+WHERE 
+    b.name LIKE 'Purge Eligible - %';
