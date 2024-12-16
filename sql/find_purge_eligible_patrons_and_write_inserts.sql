@@ -52,7 +52,7 @@ purge_eligible AS ( -- purge_eligible is a CTE that provides the patron_id, home
 -- Now join per_library and purge_eligible as needed
 SELECT 
     'INSERT INTO container.user_bucket (owning_lib, owner, name) ' ||
-    'VALUES ('||pl.library_id||', '||pl.library_id||', '||quote_literal('Purge Eligible - '||pl.shortname)||') RETURNING id;' AS create_bucket_statement,
+    'VALUES ('||pl.library_id||', 1916108, '||quote_literal('Purge Eligible - '||pl.shortname)||') RETURNING id;' AS create_bucket_statement,
     string_agg(
         'INSERT INTO container.user_bucket_item (bucket, target_user) ' ||
         'VALUES ((SELECT id FROM container.user_bucket ' ||
