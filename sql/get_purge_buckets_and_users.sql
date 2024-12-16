@@ -1,13 +1,17 @@
 -- Purpose: List all buckets that are eligible for purging.
 SELECT 
-    id AS bucket_id,
-    name AS bucket_name
+	aou.name AS "Library Name",
+    cub.id AS "Bucket ID"
 FROM 
-    container.user_bucket
+    container.user_bucket AS cub
+JOIN
+	actor.org_unit AS aou
+ON
+	aou.id = cub.owning_lib
 WHERE 
-    name LIKE 'Purge Eligible - %'
+    cub.name LIKE 'Purge Eligible - %'
 ORDER BY 
-    name;
+    aou.name;
 
 -- Get bucket items for a specific bucket
 SELECT
