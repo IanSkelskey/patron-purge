@@ -1,47 +1,25 @@
-DO $$
-DECLARE
-    bucket RECORD;
-BEGIN
-    -- Cursor to retrieve buckets created for purge-eligible patrons
-    FOR bucket IN
-        SELECT id, name
-        FROM container.user_bucket
-        WHERE name LIKE 'Purge Eligible - %'
-    LOOP
-        -- Delete users associated with the current bucket
-        FOR user_record IN
-            SELECT target_user AS user_id
-            FROM container.user_bucket_item
-            WHERE bucket = bucket.id
-        LOOP
-            BEGIN
-                -- Call the usr_delete function for each user ID
-                PERFORM actor.usr_delete(user_record.user_id, 1);
-                RAISE NOTICE 'Deleted user with ID % from bucket %', user_record.user_id, bucket.name;
-            EXCEPTION
-                WHEN OTHERS THEN
-                    RAISE WARNING 'Failed to delete user with ID % from bucket %: %', user_record.user_id, bucket.name, SQLERRM;
-            END;
-        END LOOP;
+WITH delete_user_statements AS (
+    SELECT 
+        'SELECT actor.usr_delete(' || ubi.target_user || ', 1);' AS delete_user_statements
+    FROM container.user_bucket b
+    JOIN container.user_bucket_item ubi ON b.id = ubi.bucket
+    WHERE b.name LIKE 'Purge Eligible - %'
+    AND NOT EXISTS (
+        SELECT 1
+        FROM actor.usr u
+        JOIN actor.usr u2 ON u2.id = ubi.target_user
+        WHERE (u.mailing_address = u2.mailing_address OR u.billing_address = u2.billing_address OR u.mailing_address = u2.billing_address OR u.billing_address = u2.mailing_address)
+        AND u.id != ubi.target_user
+    )
+)
+SELECT * FROM delete_user_statements;
 
-        -- Delete bucket items
-        BEGIN
-            DELETE FROM container.user_bucket_item
-            WHERE bucket = bucket.id;
-            RAISE NOTICE 'Deleted items from bucket %', bucket.name;
-        EXCEPTION
-            WHEN OTHERS THEN
-                RAISE WARNING 'Failed to delete items from bucket %: %', bucket.name, SQLERRM;
-        END;
+-- Generate SQL statements to delete buckets
 
-        -- Delete the bucket
-        BEGIN
-            DELETE FROM container.user_bucket
-            WHERE id = bucket.id;
-            RAISE NOTICE 'Deleted bucket %', bucket.name;
-        EXCEPTION
-            WHEN OTHERS THEN
-                RAISE WARNING 'Failed to delete bucket %: %', bucket.name, SQLERRM;
-        END;
-    END LOOP;
-END $$;
+WITH delete_bucket_statements AS (
+    SELECT
+        'DELETE FROM container.user_bucket WHERE id = ' || b.id || ';' AS delete_bucket_statements
+    FROM container.user_bucket b
+    WHERE b.name LIKE 'Purge Eligible - %'
+)
+SELECT * FROM delete_bucket_statements;
