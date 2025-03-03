@@ -7,6 +7,10 @@ The Patron Data Purge Initiative has been completed. This effort has helped ensu
 ## Summary of the Purge
 - **Total Patrons Purged**: 16,060
 
+## Key Points
+- The purge buckets have been left in place and should now be empty or close to empty.
+- These buckets can be used for the next purge initiative and for placing any patrons that need to be deleted in the future.
+
 ## Next Steps
 - We will continue to monitor and maintain the database.
 - The ILS Steering Committee will determine the appropriate intervals for repeating the purge process to ensure continued data accuracy and security.
